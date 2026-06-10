@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://getphaedo.com/spec/fingerprint.schema.json",
+  "title": "Phaedo Fingerprint",
+  "description": "A structured, layered model of how a subject thinks, communicates, decides, and works (Phaedo Protocol v0.1 §4). The decrypted vault payload; the ciphertext envelope (§7) is the only form transported.",
+  "type": "object",
+  "required": ["phaedo_fingerprint"],
+  "properties": {
+    "phaedo_fingerprint": {
+      "type": "object",
+      "required": ["layers"],
+      "properties": {
+        "fingerprint_id": { "type": "string" },
+        "persona_strength": { "type": "number", "minimum": 0, "maximum": 1 },
+        "layers": {
+          "type": "object",
+          "description": "The eight canonical layers: surface, behavioral, creative, domain_and_expertise, temporal_and_context, collaboration_and_relationship, decision_and_risk, big_picture. Each is independently selectable and encryptable.",
+          "additionalProperties": { "$ref": "#/$defs/layer" }
+        },
+        "consult_policies": {
+          "description": "Optional consultation guardrails carried INSIDE the fingerprint so they travel with it across every transport (the portable home for authored policies; see consultation-policy.schema.json).",
+          "$ref": "consultation-policy.schema.json"
+        }
+      }
+    },
+    "phaedo_consult_policies": {
+      "description": "Optional portable consultation guardrails — see consultation-policy.schema.json.",
+      "$ref": "consultation-policy.schema.json"
+    }
+  },
+  "$defs": {
+    "layer": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "summary": { "type": "string", "description": "Derived natural-language summary (Loop-2 extraction)." },
+        "signals": { "type": "array", "items": { "$ref": "#/$defs/signal" } },
+        "responses": { "type": "array", "description": "Questionnaire answers ({ label?, question?, answer })." }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "properties": {
+        "field": { "type": "string" },
+        "value": {},
+        "polarity": { "enum": ["positive", "negative", "neutral"] },
+        "source": { "type": "string", "description": "e.g. interview, observation, delta." },
+        "last_observed": { "type": "string" }
+      }
+    }
+  }
+}

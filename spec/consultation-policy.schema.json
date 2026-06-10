@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://getphaedo.com/spec/consultation-policy.schema.json",
+  "title": "Phaedo Consultation Policy",
+  "description": "Subject-authored standing guardrails that OVERRIDE the inferred consultation signal (Phaedo Protocol v0.1 §10.5). Carried alongside the fingerprint (phaedo_consult_policies) and applied locally.",
+  "type": "object",
+  "required": ["rules"],
+  "properties": {
+    "version": { "type": "string" },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["effect"],
+        "properties": {
+          "id": { "type": "string" },
+          "match": {
+            "type": "object",
+            "description": "All present constraints must hold for the rule to apply.",
+            "properties": {
+              "domains": { "type": "array", "items": { "type": "string" }, "description": "Substring match (case-insensitive) on the action descriptor's domain." },
+              "magnitude_min": { "enum": ["low", "medium", "high"] },
+              "magnitude_max": { "enum": ["low", "medium", "high"] },
+              "reversible": { "type": "boolean" },
+              "amount_gt": { "type": "number", "description": "Numeric threshold: matches only when the action descriptor carries an `amount` strictly greater than this (e.g. escalate irreversible spend over 5000). No amount on the action → the threshold rule does not fire." }
+            }
+          },
+          "effect": {
+            "enum": ["escalate", "require_human", "decline", "autoproceed", "bias_cautious", "bias_bold"],
+            "description": "Force effects (escalate/require_human→escalate, decline, autoproceed→proceed) are authored authorizations: they set the signal at confidence:1.0, deference:high. bias_* nudges one step along proceed→proceed_with_note→clarify→escalate (keeps the inferred confidence)."
+          },
+          "note": { "type": "string", "description": "Surfaced to the agent as the rationale_hint." }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phaedo Protocol — JSON Schemas</title>
+<meta name="description" content="Machine-readable JSON Schemas for the Phaedo Protocol: cognitive fingerprint, consultation request/response, deference policies, receipts.">
+<style>
+  :root { --bg:#0f1117; --panel:#181b24; --text:#e8eaf0; --muted:#9aa1b2; --accent:#7aa2f7; --border:#2a2f3d; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; display:flex; min-height:100vh; flex-direction:column; align-items:center; padding:0 24px; }
+  main { max-width:640px; width:100%; padding:9vh 0 4vh; flex:1; }
+  h1 { font-size:1.6rem; letter-spacing:-0.02em; margin-bottom:6px; }
+  .tagline { color:var(--accent); font-size:1rem; margin-bottom:24px; }
+  p { color:var(--muted); margin-bottom:18px; }
+  ul { list-style:none; margin-top:10px; }
+  li { padding:9px 0; border-top:1px solid var(--border); }
+  li:last-child { border-bottom:1px solid var(--border); }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .file { font:0.85em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  .desc { color:var(--muted); font-size:0.85rem; }
+  footer { max-width:640px; width:100%; padding:22px 0 30px; color:var(--muted); font-size:0.8rem; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Phaedo Protocol — JSON Schemas</h1>
+  <p class="tagline">Machine-readable schemas for the open protocol (v0.1.x).</p>
+
+  <p>The normative spec, the MCP binding, and the reference server live at
+  <a href="https://github.com/galavoxx/phaedo-mcp">github.com/galavoxx/phaedo-mcp</a>.
+  These files are the wire-format contracts:</p>
+
+  <ul>
+    <li><a class="file" href="fingerprint.schema.json">fingerprint.schema.json</a><br>
+      <span class="desc">The cognitive fingerprint: 8 signal layers + consult policies</span></li>
+    <li><a class="file" href="vault-data.schema.json">vault-data.schema.json</a><br>
+      <span class="desc">The vault-data envelope contract (spec Appendix C)</span></li>
+    <li><a class="file" href="consultation-request.schema.json">consultation-request.schema.json</a><br>
+      <span class="desc">Agent → fingerprint: the decision-point query (§10.2)</span></li>
+    <li><a class="file" href="consultation-response.schema.json">consultation-response.schema.json</a><br>
+      <span class="desc">proceed / clarify / escalate / decline / insufficient_signal + confidence (§10.3)</span></li>
+    <li><a class="file" href="consultation-policy.schema.json">consultation-policy.schema.json</a><br>
+      <span class="desc">User-authored deference policies &amp; standing authorizations (§10.5)</span></li>
+    <li><a class="file" href="authorization-check-response.schema.json">authorization-check-response.schema.json</a><br>
+      <span class="desc">Deterministic pre-flight over standing authorizations</span></li>
+    <li><a class="file" href="consultation-receipt.schema.json">consultation-receipt.schema.json</a><br>
+      <span class="desc">The encrypted, append-only audit record (§10.6)</span></li>
+    <li><a class="file" href="decision-risk-signal.schema.json">decision-risk-signal.schema.json</a><br>
+      <span class="desc">Per-signal decision &amp; risk schema with evidence basis</span></li>
+  </ul>
+
+  <p style="margin-top:24px">Conformance: <code>spec/test-schemas.mjs</code> in the repo
+  locks these schemas to what the reference engine actually emits.</p>
+</main>
+<footer>
+  Apache-2.0 · <a href="https://phaedo.so">phaedo.so</a>
+</footer>
+</body>
+</html>
