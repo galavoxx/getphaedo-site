@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phaedo Protocol — JSON Schemas</title>
-<meta name="description" content="Machine-readable JSON Schemas for the Phaedo Protocol: cognitive fingerprint, consultation request/response, deference policies, receipts.">
+<title>Anamnesis — JSON Schemas (open cognitive-fingerprint standard)</title>
+<meta name="description" content="Machine-readable JSON Schemas for Anamnesis (formerly Phaedo Protocol), the open cognitive-fingerprint standard: cognitive fingerprint, consultation request/response, deference policies, receipts.">
 <style>
   :root { --bg:#0f1117; --panel:#181b24; --text:#e8eaf0; --muted:#9aa1b2; --accent:#7aa2f7; --border:#2a2f3d; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -25,8 +25,8 @@
 </head>
 <body>
 <main>
-  <h1>Phaedo Protocol — JSON Schemas</h1>
-  <p class="tagline">Machine-readable schemas for the open protocol (v0.1.x).</p>
+  <h1>Anamnesis — JSON Schemas</h1>
+  <p class="tagline">The open cognitive-fingerprint standard (formerly Phaedo Protocol). v0.1.x.</p>
 
   <p>The normative spec, the MCP binding, and the reference server live at
   <a href="https://github.com/galavoxx/phaedo-mcp">github.com/galavoxx/phaedo-mcp</a>.
@@ -51,8 +51,14 @@
       <span class="desc">Per-signal decision &amp; risk schema with evidence basis</span></li>
   </ul>
 
-  <p style="margin-top:24px">Conformance: <code>spec/test-schemas.mjs</code> in the repo
-  locks these schemas to what the reference engine actually emits.</p>
+  <p style="margin-top:24px"><strong>Conformance.</strong> Anamnesis defines three levels —
+  <strong>Level&nbsp;0 (Projection Consumer)</strong> needs <em>no cryptography</em>: read the
+  <code>phaedo://fingerprint/projection</code> resource and insert it (any MCP host qualifies),
+  through Level&nbsp;2 (full producer). Prove conformance with the published suite:
+  <code>phaedo-validate</code> (<code>spec/validate-fingerprint.mjs</code>), the §12 test vectors
+  (<code>spec/test-vectors.mjs</code>), and a self-identification statement
+  (<code>spec/conformance.json</code>). <code>spec/test-schemas.mjs</code> ties the schemas to what
+  the reference implementation actually emits, so the standard and the product can't drift.</p>
 </main>
 <footer>
   Apache-2.0 · <a href="https://phaedo.so">phaedo.so</a>
