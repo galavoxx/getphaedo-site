@@ -2,24 +2,38 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://getphaedo.com/spec/fingerprint.schema.json",
   "title": "Phaedo Fingerprint",
-  "description": "A structured, layered model of how a subject thinks, communicates, decides, and works (Phaedo Protocol v0.1 §4). The decrypted vault payload; the ciphertext envelope (§7) is the only form transported.",
+  "description": "A structured, layered model of how a subject thinks, communicates, decides, and works (Phaedo Protocol v0.1 §4). The decrypted vault payload; the ciphertext envelope (§7) is the only form transported. Tightened (2026-06-15) to the §4.1/§4.2 prose AND to what the reference producer actually emits (extraction/fingerprint-update.js + migration.js + the assembled fingerprint): the layer envelope and per-signal shape are typed and bounded, and the §4.1 protocol-identity fields (phaedo_protocol_version, subject_id, schema_revision) are now REQUIRED — the reference producer stamps them via migration.js stampProtocolFields. The producer↔schema tie is spec/test-schemas.mjs (validates the shipped sample AND live extraction output); signal uniqueness per (field, polarity, domain) — which JSON Schema cannot express across array items — is enforced there too.",
   "type": "object",
   "required": ["phaedo_fingerprint"],
   "properties": {
     "phaedo_fingerprint": {
       "type": "object",
-      "required": ["layers"],
+      "description": "The §4.1 fingerprint document. vault-data.schema.json $refs this sub-schema as the runtime payload's fingerprint.",
+      "required": ["layers", "phaedo_protocol_version", "subject_id", "schema_revision"],
       "properties": {
-        "fingerprint_id": { "type": "string" },
-        "persona_strength": { "type": "number", "minimum": 0, "maximum": 1 },
+        "phaedo_protocol_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+",
+          "description": "Protocol version (MAJOR.MINOR), §4.1. Emitted by the reference producer (migration.js stampProtocolFields)."
+        },
+        "fingerprint_id": { "type": "string", "description": "Stable identifier for this fingerprint instance (§4.1, UUID v4)." },
+        "subject_id": { "type": "string", "description": "Opaque, non-PII subject identifier (§4.1). A UUID minted once per fingerprint by the reference producer; never derived from PII." },
+        "created_at": { "type": "string", "description": "RFC 3339 creation timestamp (§4.1)." },
+        "updated_at": { "type": "string", "description": "RFC 3339 timestamp of the most recent layer update (§4.1)." },
+        "persona_strength": { "type": "number", "minimum": 0, "maximum": 1, "description": "Producer confidence the fingerprint is a useful match (§4.4)." },
+        "schema_revision": { "type": "integer", "minimum": 0, "description": "Layer-schema revision counter (§4.1). Emitted by the reference producer (migration.js stampProtocolFields)." },
         "layers": {
           "type": "object",
-          "description": "The eight canonical layers: surface, behavioral, creative, domain_and_expertise, temporal_and_context, collaboration_and_relationship, decision_and_risk, big_picture. Each is independently selectable and encryptable.",
+          "description": "The eight canonical layers: surface, behavioral, creative, domain_and_expertise, temporal_and_context, collaboration_and_relationship, decision_and_risk, big_picture. Each is independently selectable and encryptable. Any combination MAY be absent (§4.2).",
           "additionalProperties": { "$ref": "#/$defs/layer" }
         },
         "consult_policies": {
           "description": "Optional consultation guardrails carried INSIDE the fingerprint so they travel with it across every transport (the portable home for authored policies; see consultation-policy.schema.json).",
           "$ref": "consultation-policy.schema.json"
+        },
+        "extensions": {
+          "type": "object",
+          "description": "Producer-specific or experimental fields (§4.5). Keys SHOULD be producer-prefixed; consumers MUST ignore unknown keys."
         }
       }
     },
@@ -31,21 +45,39 @@
   "$defs": {
     "layer": {
       "type": "object",
+      "description": "A §4.2 layer document. Shape varies by provenance: questionnaire-seeded layers carry label/responses/summary/signals; extraction-built layers carry layer_version/last_updated/confidence/signals/summary. All properties typed; none individually required so both forms validate.",
       "properties": {
         "label": { "type": "string" },
-        "summary": { "type": "string", "description": "Derived natural-language summary (Loop-2 extraction)." },
+        "layer_version": { "type": "string", "description": "Layer schema version, independent of the top-level protocol version (§4.2)." },
+        "last_updated": { "type": "string", "description": "RFC 3339 timestamp of the most recent observation that updated this layer (§4.2)." },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1, "description": "Producer confidence in this layer specifically (§4.2)." },
+        "summary": { "type": "string", "description": "Derived natural-language summary for injection (Loop-2 extraction; v0.1 limit 2000 chars)." },
         "signals": { "type": "array", "items": { "$ref": "#/$defs/signal" } },
-        "responses": { "type": "array", "description": "Questionnaire answers ({ label?, question?, answer })." }
+        "responses": {
+          "type": "array",
+          "description": "Questionnaire answers ({ label?, question?, answer }).",
+          "items": { "type": "object", "properties": { "label": { "type": "string" }, "question": { "type": "string" }, "answer": { "type": "string" } } }
+        }
       }
     },
     "signal": {
       "type": "object",
+      "description": "A structured §4.2/§5.1 signal. field + polarity + value are the load-bearing trio every signal carries. The Decision & Risk layer additionally has a normative per-signal schema (decision-risk-signal.schema.json).",
+      "required": ["field", "polarity", "value"],
       "properties": {
-        "field": { "type": "string" },
-        "value": {},
-        "polarity": { "enum": ["positive", "negative", "neutral"] },
-        "source": { "type": "string", "description": "e.g. interview, observation, delta." },
-        "last_observed": { "type": "string" }
+        "signal_id": { "type": "string" },
+        "field": { "type": "string", "description": "The dimension/axis this signal describes." },
+        "dimension": { "type": "string", "description": "Proposal 0002 alias of field (the decision/style axis)." },
+        "polarity": { "enum": ["positive", "negative", "neutral"], "description": "Preference / anti-preference / neutral (§4.3)." },
+        "value": { "description": "Enum token, scalar, array, or number — resolved by the producer; consumers tolerate any JSON value." },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "source": { "type": "string", "description": "e.g. interview, questionnaire, extraction, delta, observation." },
+        "evidence_basis": { "enum": ["observed", "corroborated", "self_reported"], "description": "How the signal was learned (proposal 0002); consumers weigh observed/corroborated above self_reported." },
+        "domain": { "type": "string", "description": "Optional §4.2.7 domain scope (substring namespace shared with action_descriptor.domain)." },
+        "threshold": { "description": "Reserved (§4.2.7); not yet emitted." },
+        "observation_count": { "type": "integer", "minimum": 0 },
+        "session_refs": { "type": "array", "items": { "type": "string" } },
+        "last_observed": { "type": "string", "description": "RFC 3339 timestamp of the most recent observation." }
       }
     }
   }
