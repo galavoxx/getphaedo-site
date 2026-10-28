@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phaedo — Privacy Policy</title>
+<meta name="description" content="Phaedo Privacy Policy.">
+<style>
+  :root { --bg: #0f1117; --panel: #181b24; --text: #e8eaf0; --muted: #9aa1b2; --accent: #7aa2f7; --border: #2a2f3d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 0 20px; }
+  main { max-width: 720px; margin: 0 auto; padding: 7vh 0 5vh; }
+  nav { font-size: 0.9rem; margin-bottom: 28px; }
+  h1 { font-size: 1.9rem; letter-spacing: -0.02em; margin-bottom: 22px; }
+  h2 { font-size: 1.2rem; margin: 34px 0 12px; }
+  h3 { font-size: 1rem; margin: 24px 0 10px; color: var(--text); }
+  p, li, td, th { color: var(--muted); }
+  p { margin-bottom: 14px; }
+  strong { color: var(--text); font-weight: 600; }
+  ul { margin: 0 0 16px 20px; }
+  li { margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 20px; font-size: 0.92rem; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-top: 1px solid var(--border); }
+  th { color: var(--text); font-weight: 600; }
+  code { font: 0.85em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--panel); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer { max-width: 720px; margin: 0 auto; padding: 22px 0 30px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  @media (max-width: 560px) { table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+<main>
+<nav><a href="/">← Phaedo</a></nav>
+<h1>Privacy Policy</h1>
+<p><strong>Effective date:</strong> October 27, 2026</p>
+<p><strong>Who we are:</strong> Phaedo is made by Phaedo Labs ("Phaedo", "we"). Contact: <a href="mailto:hello@phaedo.so">hello@phaedo.so</a>.</p>
+<h2>The short version</h2>
+<p>Phaedo learns how you write, work and decide, so AI assistants can answer the way you like and check with you before they act for you. That profile lives <strong>on your own devices</strong>: your phone, your browser, and your computer if you use Phaedo with Claude Code or Claude Desktop. We do not have a copy, and we cannot read one.</p>
+<p>The one shared piece is a relay that passes sealed messages between your devices when they are not on the same Wi-Fi. It cannot open them, and it forgets them on a timer.</p>
+<p>There is no Phaedo account, no email address, no password, no analytics, and no advertising. We do not sell data or use it to train models.</p>
+<h2>What Phaedo keeps, and where</h2>
+<h3>On your phone (the Phaedo app — your main copy)</h3>
+<ul><li><strong>Your profile:</strong> your interview answers, what Phaedo has learned about how you write and decide, your rules and guardrails, examples of your writing, and decisions you've committed to. Encrypted; the key is in the iPhone Keychain, unlocked with Face ID.</li><li><strong>Which browsers and apps are paired</strong> with your phone.</li><li><strong>A backup, only if you make one:</strong> an encrypted file you keep, opened by a recovery code only you hold. We keep no copy and no recovery key, so we cannot restore it for you.</li></ul>
+<h3>In your browser (the Phaedo extension)</h3>
+<ul><li><strong>A copy of your profile,</strong> in an encrypted vault whose key cannot be read out of the extension.</li><li><strong>Your chats with AI sites are not stored.</strong> When you turn on learning, the extension reads the page you are already viewing, turns what it sees into counts and traits (for example, "asked for a shorter answer"), and discards the text. Nothing is uploaded.</li></ul>
+<h3>On your computer (Phaedo for Claude Code, Claude Desktop, or another AI app)</h3>
+<p>Everything here is kept in a <code>.phaedo-mcp</code> folder in your home folder.</p>
+<ul><li><strong>A copy of your profile,</strong> so assistants keep working when your phone is away. Encrypted, but the key is stored in a protected file beside it, which is weaker protection than your phone's Face ID–protected Keychain.</li><li><strong>Decision records.</strong> Each time an assistant asks Phaedo before acting for you (for example a merge, a deploy or a payment), Phaedo records what the action was, a short description of it (up to 500 characters), any amount, what Phaedo answered, and what you decided. Encrypted. The most recent 5,000 are kept.</li><li><strong>Signing records,</strong> for spending approvals you signed with Face ID: a fingerprint of what was signed and when, never the approval itself. Encrypted. The most recent 5,000 are kept.</li><li><strong>Style counts</strong> learned from your Claude Code sessions, and from the Claude app on a Mac if you install Phaedo's screen reader: how often you asked for shorter answers, no headings, and so on, per session. A <strong>plain, unencrypted file</strong> of names and numbers only — never your words. The last 200 sessions per app are kept; older ones are folded into totals.</li><li><strong>Claude Code's own session files are Claude's, not Phaedo's.</strong> Phaedo reads them on your computer to learn, keeps only the counts above, and discards the text.</li><li><strong>Screen text in the Mac Claude app</strong> (only if you install the reader) is read on screen, turned into counts, and discarded. It is never stored.</li><li><strong>Your pairing with your phone,</strong> so this computer can reach it.</li></ul>
+<p><strong>Before a merge, Phaedo's check runs your own <code>git</code> and <code>gh</code> commands</strong> to see how large the change is and whether its checks passed. <code>gh</code> contacts GitHub as it always does; Phaedo sends nothing of its own.</p>
+<p><strong>Optional local models (off unless you turn them on).</strong> You can point Phaedo at an AI model of your choosing — by default, one running on your own computer — to help it classify what it reads or judge a decision. When you do, the text being classified, or the description of the action, goes to the model address you set. That model's own terms then apply.</p>
+<h3>On the relay (shared, sealed)</h3>
+<p>The relay (<code>phaedo-relay.fly.dev</code>) carries messages between your phone and your other devices when they are not on the same network. It is a post box, not a filing cabinet.</p>
+<table><thead><tr><th>What it holds</th><th>Can it read it?</th><th>How long</th></tr></thead><tbody><tr><td>Sealed messages between your devices</td><td><strong>No</strong> — the keys are made on your devices when you pair them, and the relay never has one</td><td>7 days, or until replaced by a newer one</td></tr><tr><td>A random device ID (no name, email or account attached)</td><td>It is only a number</td><td>1 year after its last use</td></tr><tr><td>Your Apple push token (iPhone), to wake the app when something is waiting</td><td>It is an address, not content</td><td>90 days after last refresh</td></tr><tr><td>A decision waiting for your answer</td><td>Sealed</td><td>Until you answer or it expires</td></tr><tr><td>Your IP address, to slow down floods of requests</td><td>In memory only, never saved</td><td>Usually a minute or two after your last request; up to about an hour after a new phone identity is created; gone when the relay restarts</td></tr><tr><td>A log line per request: the method, the path with device IDs shortened, and the result</td><td>—</td><td>Our host's log retention</td></tr><tr><td>When a flood is refused: a log line with the first 8 characters of the IP address or device ID</td><td>—</td><td>Our host's log retention</td></tr></tbody></table>
+<p>A small amount of routing information rides outside each seal so the relay can deliver it: the kind of message (for example "profile"), an opaque identifier for it, and a timestamp.</p>
+<h2>Who else is involved</h2>
+<ul><li><strong>Fly.io</strong> hosts the relay. It processes the traffic that reaches it, including IP addresses.</li><li><strong>Apple</strong> delivers push notifications and distributes the iPhone app. A push says only "something is waiting", never what.</li><li><strong>Hugging Face</strong> hosts the optional on-device model for the browser extension. If you turn it on, your browser downloads the model from them, so they see a download request. The model then runs on your computer; nothing you read or write is sent to them.</li><li><strong>GitHub</strong> receives the requests your own <code>gh</code> command makes during the merge check.</li><li><strong>The AI assistants you use</strong> (such as Claude or ChatGPT) receive what Phaedo adds to your conversations and the answers it gives them — that is what the product is for. Their own privacy policies govern what they do with it.</li></ul>
+<p>We do not sell data, share it for advertising, or use it to train models.</p>
+<h2>Your choices</h2>
+<ul><li><strong>Turn injection off,</strong> and Phaedo stops adding your profile to chats.</li><li><strong>Turn learning off,</strong> and it stops reading your conversations.</li><li><strong>Disconnect any browser or app</strong> from your phone's Access screen; it loses access immediately.</li><li><strong>Delete everything on your phone</strong> with Delete from this iPhone, which also disconnects every paired browser and app so nothing can sync it back.</li><li><strong>Delete everything in your browser</strong> with Settings → Delete everything.</li><li><strong>Delete everything on your computer</strong> by deleting the <code>.phaedo-mcp</code> folder in your home folder. If you installed Phaedo from its source folder, its uninstaller does this for you (<code>node install.mjs --uninstall --purge</code>). Uninstalling the Claude Code plugin or the Claude Desktop extension leaves that folder in place, so your pairing survives a reinstall; delete it to remove everything.</li></ul>
+<p>Because we hold no copy of your data, deleting it is something you do yourself, on your devices. The only thing on our side is the relay's short-lived routing state described above, which expires on its own. You can also write to <a href="mailto:hello@phaedo.so">hello@phaedo.so</a> with any question or request.</p>
+<h2>Children</h2>
+<p>Phaedo is not intended for anyone under 18, and we do not knowingly collect information from children.</p>
+<h2>Changes to this policy</h2>
+<p>If this policy changes, we will post the new version here with a new effective date, and tell you in the product about any change that affects what is kept or shared.</p>
+<h2>Contact</h2>
+<p>Phaedo Labs. Email: <a href="mailto:hello@phaedo.so">hello@phaedo.so</a>.</p>
+</main>
+<footer><a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a> · <a href="mailto:hello@phaedo.so">hello@phaedo.so</a></footer>
+</body>
+</html>
